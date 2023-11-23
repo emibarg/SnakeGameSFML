@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(SNAKE_GAME LANGUAGES CXX)
 
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
@@ -29,5 +30,10 @@ if(WIN32)
             PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:SNAKE_GAME>
             VERBATIM)
 endif()
-
+install(DIRECTORY assets DESTINATION .)
 install(TARGETS SNAKE_GAME)
+if(WIN32)
+    set(CPACK_GENERATOR NSIS)  # Use NSIS (Nullsoft Scriptable Install System) for Windows
+endif()
+
+include(CPack)
